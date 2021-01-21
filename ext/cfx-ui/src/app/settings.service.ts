@@ -122,6 +122,15 @@ export class SettingsService {
 				category: '#SettingsCat_Game',
 			});
 
+			this.addSetting('discordRichPresence', {
+				name: '#Settings_DiscordRichPresence',
+				description: '#Setting_DiscordRichPresenceDesc',
+				type: 'checkbox',
+				getCb: () => this.gameService.getConvar('cl_discordRichPresenceEnabled').pipe(map(a => a === 'true' ? 'true' : 'false')),
+				setCb: (value) => this.gameService.setArchivedConvar('cl_discordRichPresenceEnabled', value),
+				category: '#SettingsCat_Game'
+			});
+
 			this.addSetting('customEmoji', {
 				name: '#Settings_CustomEmoji',
 				description: '#Settings_CustomEmojiDesc',
