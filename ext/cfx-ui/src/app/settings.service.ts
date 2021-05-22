@@ -131,24 +131,6 @@ export class SettingsService {
 				category: '#SettingsCat_Game',
 			});
 
-			this.addSetting('useAudioFrameLimiter', {
-				name: '#Settings_UseAudioFrameLimiter',
-				description: '#Settings_UseAudioFrameLimiterDesc',
-				type: 'checkbox',
-				getCb: () => this.gameService.getConvar('game_useAudioFrameLimiter').pipe(map(a => a === 'true' ? 'true' : 'false')),
-				setCb: (value) => this.gameService.setConvar('game_useAudioFrameLimiter', value),
-				category: '#SettingsCat_Game',
-			});
-
-			this.addSetting('enableHandbrakeCamera', {
-				name: '#Settings_HandbrakeCamera',
-				description: '#Settings_HandbrakeCameraDesc',
-				type: 'checkbox',
-				getCb: () => this.gameService.getConvar('cam_enableHandbrakeCamera').pipe(map(a => a === 'true' ? 'true' : 'false')),
-				setCb: (value) => this.gameService.setConvar('cam_enableHandbrakeCamera', value),
-				category: '#SettingsCat_Game',
-			});
-
 			this.addSetting('customEmoji', {
 				name: '#Settings_CustomEmoji',
 				description: '#Settings_CustomEmojiDesc',

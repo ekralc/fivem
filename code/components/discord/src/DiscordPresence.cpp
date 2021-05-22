@@ -6,15 +6,19 @@
 
 #include <GameInit.h>
 #include <NetLibrary.h>
+#include <CoreConsole.h>
 
 #include <ScriptEngine.h>
 #include <scrEngine.h>
+
 
 #define DEFAULT_APP_ID "382624125287399424"
 #define DEFAULT_APP_ASSET "fivem_large"
 #define DEFAULT_APP_ASSET_SMALL ""
 #define DEFAULT_APP_ASSET_TEXT ""
 #define DEFAULT_APP_ASSET_SMALL_TEXT ""
+
+static bool g_richPresenceEnabled;
 
 static bool g_richPresenceChanged;
 
@@ -134,8 +138,13 @@ static void UpdatePresence()
 			discordPresence.buttons = buttons;
 		}
 
-		Discord_UpdatePresence(&discordPresence);
-
+		if (g_richPresenceEnabled) {
+			Discord_UpdatePresence(&discordPresence);
+		}
+		else {
+			Discord_ClearPresence();
+		}
+		
 		g_richPresenceChanged = false;
 	}
 }
@@ -149,6 +158,8 @@ static InitFunction initFunction([]()
 	g_discordAppAssetSmall = DEFAULT_APP_ASSET_SMALL;
 	g_discordAppAssetText = DEFAULT_APP_ASSET_TEXT;
 	g_discordAppAssetSmallText = DEFAULT_APP_ASSET_SMALL_TEXT;
+
+	static ConVar<bool> richPresenceEnabled("cl_discordRichPresenceEnabled", ConVar_Archive, true, &g_richPresenceEnabled);
 	
 	Discord_Initialize(g_discordAppId.c_str(), &handlers, 1, nullptr);
 
@@ -191,6 +202,12 @@ static InitFunction initFunction([]()
 		g_richPresenceChanged = true;
 
 		OnRichPresenceSetTemplate("In the menus\n");
+	});
+
+	console::GetDefaultContext()->GetVariableManager()->OnConvarModified.Connect([](const std::string& name)
+	{
+		if (name == "cl_discordRichPresenceEnabled")
+			g_richPresenceChanged = true;
 	});
 
 	fx::ScriptEngine::RegisterNativeHandler("SET_RICH_PRESENCE", [](fx::ScriptContext& context)
