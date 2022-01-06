@@ -75,6 +75,16 @@ public:
 	virtual ResourceState GetState() = 0;
 
 	//
+	// Gets the display name for end-user contexts.
+	//
+	virtual const std::string& GetDisplayName() = 0;
+
+	//
+	// Sets the display name of the resource for end-user contexts.
+	//
+	virtual void SetDisplayName(const std::string& displayName) = 0;
+
+	//
 	// Loads the resource from the specified root path - compatibility wrapper.
 	//
 	inline bool LoadFrom(const std::string& rootPath)

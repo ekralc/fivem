@@ -79,6 +79,8 @@ struct InfoHttpHandlerComponentLocals : fwRefCountable
 				infoJson["resources"] = json::array();
 				infoJson["resources"].push_back("hardcap");
 
+				infoJson["resourceLabels"] = json::object();
+
 				auto resman = m_instance->GetComponent<fx::ResourceManager>();
 				resman->ForAllResources([&](fwRefContainer<fx::Resource> resource)
 				{
@@ -95,6 +97,11 @@ struct InfoHttpHandlerComponentLocals : fwRefCountable
 					}
 
 					infoJson["resources"].push_back(resource->GetName());
+
+					if (!resource->GetDisplayName().empty())
+					{
+						infoJson["resourceLabels"][resource->GetName()] = resource->GetDisplayName();
+					}
 				});
 
 				infoJson["version"] = 0;

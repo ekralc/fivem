@@ -66,6 +66,16 @@ const std::string& ResourceImpl::GetPath()
 	return m_rootPath;
 }
 
+const std::string& ResourceImpl::GetDisplayName()
+{
+	return m_displayName;
+}
+
+void ResourceImpl::SetDisplayName(const std::string& displayName)
+{
+	m_displayName = displayName;
+}
+
 ResourceState ResourceImpl::GetState()
 {
 	return m_state;

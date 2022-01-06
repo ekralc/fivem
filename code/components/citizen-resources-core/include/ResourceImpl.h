@@ -18,6 +18,8 @@ class ResourceImpl final : public Resource
 private:
 	std::string m_name;
 
+	std::string m_displayName;
+
 	std::string m_rootPath;
 
 	ResourceManagerImpl* m_manager;
@@ -32,6 +34,10 @@ public:
 	virtual const std::string& GetName() override;
 
 	virtual const std::string& GetIdentifier() override;
+
+	virtual const std::string& GetDisplayName() override;
+
+	virtual void SetDisplayName(const std::string& displayName) override;
 
 	virtual const std::string& GetPath() override;
 

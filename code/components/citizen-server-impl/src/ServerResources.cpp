@@ -651,7 +651,7 @@ static InitFunction initFunction([]()
 		fx::Resource::OnInitializeInstance.Connect([](fx::Resource* resource)
 		{
 			fx::ServerInstanceBase* instance = resource->GetManager()->GetComponent<fx::ServerInstanceBaseRef>()->Get();
-			
+
 			// resource game filtering
 			resource->OnStart.Connect([instance, resource]()
 			{
@@ -735,6 +735,19 @@ static InitFunction initFunction([]()
 				}
 
 				return allowed;
+			}, INT32_MIN);
+
+			// resource name aliases
+			resource->OnStart.Connect([resource]()
+			{
+				auto md = resource->GetComponent<fx::ResourceMetaDataComponent>();
+				auto labels = md->GetEntries("ui_label");
+
+				if (labels.begin() != labels.end())
+				{
+					auto& label = labels.begin()->second;
+					resource->SetDisplayName(label);
+				}
 			}, INT32_MIN);
 
 			resource->OnStart.Connect([=]()
